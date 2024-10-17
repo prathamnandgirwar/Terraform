@@ -1,18 +1,23 @@
 
-
+# vpc
  resource "aws_vpc" "vnet" {
      cidr_block = var.vpc_cidr_block
  }
 
+# public subnet
  resource "aws_subnet" "public" {
      vpc_id = aws_vpc.vnet.id
      cidr_block = var.aws_subnet2[0]
      availability_zone = var.az[0]
      map_public_ip_on_launch = var.public_ip
  }
+
+# internet gateway
  resource "aws_internet_gateway" "igw-demo" {
     vpc_id = aws_vpc.vnet.id 
  }
+
+# route table
  resource "aws_route_table" "rt-publ" {
     vpc_id = aws_vpc.vnet.id
     route {
@@ -21,10 +26,14 @@
     }
    
  }
+
+# associate public subnet
  resource "aws_route_table_association" "rt-atach" {
     subnet_id = aws_subnet.public.id
     route_table_id = aws_route_table.rt-publ.id
  }
+
+# security group
  resource "aws_security_group" "ng" {
     vpc_id = aws_vpc.vnet.id
 
@@ -60,6 +69,7 @@
     }
  }
 
+# launch Instance
  resource "aws_instance" "apache" {
     ami = var.ami_id
     instance_type = var.instance_type
