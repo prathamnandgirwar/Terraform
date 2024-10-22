@@ -8,3 +8,22 @@ terraform {
   }
 }
 ```
+
+````
+terraform init
+````
+
+**Remote To Local**
+
+```hcl
+terraform {
+    backend "local" {
+        path = "terraform.tfstate"
+
+    }
+}
+```
+
+````
+terraform init -migrate-state
+````
