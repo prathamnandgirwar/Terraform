@@ -1,11 +1,3 @@
-# Use default VPC and subnets
-data "aws_vpc" "default" {
-  default = true
-}
-
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
 }
